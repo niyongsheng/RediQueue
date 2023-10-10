@@ -100,4 +100,23 @@ public class RediQueue<T> {
             throw new RuntimeException("无法获取队列中的所有元素：" + e.getMessage(), e);
         }
     }
+
+    /**
+     * 清空队列。
+     *
+     * @param queueName 队列的名称
+     * @throws IllegalArgumentException 如果队列名称为null
+     */
+    public void clearQueue(String queueName) {
+        if (queueName == null) {
+            throw new IllegalArgumentException("队列名称不能为空");
+        }
+        try {
+            redisTemplate.delete(queueName);
+        } catch (DataAccessException e) {
+            // 处理Redis操作异常
+            throw new RuntimeException("无法清空队列：" + e.getMessage(), e);
+        }
+    }
+    
 }

@@ -4,8 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class RediQueueTest {
@@ -74,6 +73,30 @@ class RediQueueTest {
 
     @Test
     void testDequeueFromEmptyQueue() {
+        // 尝试从空队列出队
+        MissionObject item = rediQueue.dequeue("testQueue");
+
+        // 断言出队结果应该为null
+        assertNull(item);
+    }
+
+    @Test
+    void testClearQueue() {
+        // 入队
+        MissionObject item1 = new MissionObject(1, "Mission 1");
+        MissionObject item2 = new MissionObject(2, "Mission 2");
+        rediQueue.enqueue("testQueue", item1);
+        rediQueue.enqueue("testQueue", item2);
+
+        // 清空队列
+        rediQueue.clearQueue("testQueue");
+
+        // 获取队列长度
+        long length = rediQueue.getQueueLength("testQueue");
+
+        // 断言队列已清空，长度应为0
+        assertEquals(0, length);
+
         // 尝试从空队列出队
         MissionObject item = rediQueue.dequeue("testQueue");
 
