@@ -10,16 +10,35 @@
 
 1. Maven 依赖：
 
-   ```xml
+```xml
    <dependency>
        <groupId>org.springframework.boot</groupId>
        <artifactId>spring-boot-starter-data-redis</artifactId>
    </dependency>
+```
 
 2. 测试用例：
 
     [RediQueueTest](RediQueueTest.java ':include :type=code')
+```java
+    @Autowired
+    private RediQueue<MissionObject> rediQueue;
 
+    // 入队
+    MissionObject item1 = new MissionObject(1, "Mission 1");
+    MissionObject item2 = new MissionObject(2, "Mission 2");
+    rediQueue.enqueue("testQueue", item1);
+    rediQueue.enqueue("testQueue", item2);
+
+    // 出队
+    MissionObject dequeuedItem1 = rediQueue.dequeue("testQueue");
+
+    // 清空队列
+    rediQueue.clearQueue("testQueue");
+
+    // 获取队列长度
+    long length = rediQueue.getQueueLength("testQueue");
+```
 ## 联系我
 
 * 微博: [@Ni永胜](https://weibo.com/u/7317805089)

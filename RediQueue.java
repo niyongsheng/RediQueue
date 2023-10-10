@@ -7,8 +7,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * Redis队列服务
- * 
+ * Redis队列组件
  * https://github.com/niyongsheng/RediQueue
  * 
  * @param <T> 队列中的元素类型
@@ -118,5 +117,5 @@ public class RediQueue<T> {
             throw new RuntimeException("无法清空队列：" + e.getMessage(), e);
         }
     }
-    
+
 }
